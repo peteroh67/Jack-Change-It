@@ -1,6 +1,5 @@
 package jackchangeit;
 
-import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
@@ -23,86 +22,11 @@ public class UserInterface {
 		return this.jackChangeIt;
 	}
 
-	public void start() {
-		System.out.println("------------------Welcome to Jack Change It.------------------");
-		createPlayers();
-		dealCards();
-		getValidStartingCard();
-		playGame();
-	}
-
-	/**
-	 * 
-	 */
-	private void createPlayers() {
-
-		int numberOfPlayers;
-		List<Player> gamePlayers = new ArrayList<>();
-		boolean nameIsValid = true;
-
-		System.out.printf("How many players? %d - %s%n", JackChangeIt.MIN_NUM_OF_PLAYERS,
-				JackChangeIt.MAX_NUM_OF_PLAYERS);
-
-		numberOfPlayers = getValidUserInput(JackChangeIt.MIN_NUM_OF_PLAYERS, JackChangeIt.MAX_NUM_OF_PLAYERS);
-
-		for (int i = 1; i <= numberOfPlayers; i++) {
-			do {
-				try {
-					nameIsValid = true;
-					System.out.println("Player " + i + " : Enter your name.");
-					String name = getScanner().nextLine();
-
-					if (name.isBlank()) {
-						throw new RuntimeException();
-					}
-					Player newPlayer = new Player(name);
-					gamePlayers.add(newPlayer);
-
-				} catch (RuntimeException e) { // other exceptions need caught
-					System.err.printf("Try again. Invalid input.%n");
-					nameIsValid = false;
-
-				}
-			} while (!nameIsValid);
-
-		}
-		getJackChangeIt().createPlayers(gamePlayers);
-	}
-
-	/**
-	 * Ensures starting card is not a trick card, 2, J, Q, AofH, 5ofH.
-	 * 
-	 * @return
-	 */
-	private void getValidStartingCard() {
-
-		System.out.println("Getting a starting card..");
-
-		while (true) {
-			boolean isCardValid = getJackChangeIt().getAStartingCard();
-
-			if (!isCardValid) {
-				System.out.println(getJackChangeIt().getLastPlayedCard());
-				System.out.println("Cannot start on a trick card");
-
-			} else {
-				System.out.println("The starting card is : " + getJackChangeIt().getLastPlayedCard());
-				return;
-			}
-		}
-	}
-
-	private void dealCards() {
-		getJackChangeIt().dealCards();
-		System.out.println("The deck has been shuffled and each player has been dealt "
-				+ JackChangeIt.NUMBER_OF_STARTING_CARDS + " cards.");
-	}
-
 	/**
 	 * Main game loop.
 	 * 
 	 */
-	private void playGame() {
+	void playGame() {
 		do {
 			System.out.println("It is " + getJackChangeIt().getCurrentPlayersName() + "'s turn.");
 			takeTurnOrQuitChoice();
@@ -124,7 +48,7 @@ public class UserInterface {
 	 * the flag gameOver is set to true, ending the game by exiting the main game
 	 * loop.
 	 */
-	private void takeTurnOrQuitChoice() {
+	void takeTurnOrQuitChoice() {
 
 		int playerChoice;
 
@@ -147,7 +71,7 @@ public class UserInterface {
 	 * play or pick up a card.
 	 * 
 	 */
-	private void outputCurrentPlayersCardState() {
+	void outputCurrentPlayersCardState() {
 
 		System.out.println(getJackChangeIt().getCurrentPlayersName() + " - Your cards : ");
 		displayPlayersCards();
@@ -166,7 +90,7 @@ public class UserInterface {
 	 * chosen card.
 	 * 
 	 */
-	private void pickupOrPlayChoice() {
+	void pickupOrPlayChoice() {
 		System.out.println("\nSelect an option : ");
 		System.out.println("1 - Play a card");
 		System.out.println("2 - Pick up a card");
@@ -180,7 +104,7 @@ public class UserInterface {
 		}
 	}
 	
-	private void playerChoosesToPlayACard() {
+	void playerChoosesToPlayACard() {
 		if (getJackChangeIt().playerHasAValidCard()) {
 			playCard(selectACard());
 		} else {
@@ -195,7 +119,7 @@ public class UserInterface {
 	 * 
 	 * @param selectedCard
 	 */
-	private void playCard(Card selectedCard) {
+	void playCard(Card selectedCard) {
 		System.out.println(jackChangeIt.getCurrentPlayersName() + " has played " + selectedCard.toString());
 		getJackChangeIt().getCurrentPlayer().removeCardFromHand(selectedCard);
 		getJackChangeIt().burnCard(selectedCard);
@@ -205,7 +129,7 @@ public class UserInterface {
 		}
 	}
 	
-	private void playTrickCard(Card selectedCard) {
+	void playTrickCard(Card selectedCard) {
 		switch (selectedCard.getFace()) {
 		case TWO:
 			getJackChangeIt().pickUpTwo();
@@ -238,7 +162,7 @@ public class UserInterface {
 	 * 
 	 * @return the players chosen card
 	 */
-	private Card selectACard() {
+	Card selectACard() {
 		int selectedCardIndex;
 		System.out.println("Enter the number of your chosen card : ");
 
@@ -255,12 +179,12 @@ public class UserInterface {
 
 	}
 
-	private void pickUp() {
+	void pickUp() {
 		getJackChangeIt().pickUpACard();
 		System.out.println(jackChangeIt.getCurrentPlayersName() + " has picked up a card.");
 	}
 
-	private int getValidUserInput(int lowerBound, int upperBound) {
+	int getValidUserInput(int lowerBound, int upperBound) {
 		int userInput = -1;
 
 		while (true) {
@@ -288,7 +212,7 @@ public class UserInterface {
 	 * lastChosenJackChangeSuit.
 	 * 
 	 */
-	private void selectASuit() {
+	void selectASuit() {
 
 		System.out.println("Select your chosen suit : ");
 		System.out.println("1 Hearts");
@@ -299,7 +223,7 @@ public class UserInterface {
 
 	}
 
-	private void changeSuit(int suitChoice) {
+	void changeSuit(int suitChoice) {
 		CardSuit chosenJackSuit = null;
 
 		if (suitChoice == 1) {
@@ -315,7 +239,7 @@ public class UserInterface {
 		System.out.println("You have changed the suit to " + getJackChangeIt().getChosenJackSuit());
 	}
 
-	private void playAceOfHearts() {
+	void playAceOfHearts() {
 		if (getJackChangeIt().isNextPlayerHoldingFiveOfHearts()) {
 			fiveOfHeartsDefence();
 		} else {
@@ -323,7 +247,7 @@ public class UserInterface {
 		}
 	}
 
-	private void fiveOfHeartsDefence() {
+	void fiveOfHeartsDefence() {
 		String nextPlayer = getJackChangeIt().getNextPlayersName();
 
 		System.out.println(nextPlayer + " is holding the 5 of Hearts so they can block the Ace ! !");
@@ -336,17 +260,18 @@ public class UserInterface {
 		if (userChoice == 1) {
 			getJackChangeIt().fiveOfHeartsDefence();
 			System.out.println(nextPlayer + " has played the FIVE of HEART in defence.");
+			getJackChangeIt().missATurn();
 		} else {
 			pickUpFive();
 		}
 	}
 
-	private void pickUpFive() {
+	void pickUpFive() {
 		getJackChangeIt().pickUpFive();
 		System.out.println(getJackChangeIt().getNextPlayersName() + " has picked up 5 cards.");
 	}
 
-	private void displayPlayersCards() {
+	void displayPlayersCards() {
 		List<Card> cards = getJackChangeIt().getCurrentPlayersCards();
 		for (int i = 0; i < cards.size(); i++) {
 			System.out.println(i + " - " + cards.get(i));
@@ -356,7 +281,7 @@ public class UserInterface {
 	/**
 	 * 
 	 */
-	private void gameOver() {
+	void gameOver() {
 
 		System.out.println("Game over ! !");
 
@@ -371,7 +296,7 @@ public class UserInterface {
 
 	}
 
-	private void outputPlayersPoints() {
+	void outputPlayersPoints() {
 
 		System.out.println("------------------------ Player Points ------------------------");
 

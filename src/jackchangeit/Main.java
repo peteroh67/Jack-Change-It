@@ -6,11 +6,9 @@ public class Main {
 
 	public static void main(String[] args) {
 		Scanner scanner = new Scanner(System.in);
-		JackChangeIt jackChangeIt = new JackChangeIt();
+		JackChangeItStartUp jackChangeIt = new JackChangeItStartUp(scanner);
 		
-		UserInterface UI = new UserInterface(scanner, jackChangeIt);
-		
-		UI.start();
+		jackChangeIt.start();
 		scanner.close();
 	}
 
