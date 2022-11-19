@@ -2,6 +2,7 @@ package jackchangeit;
 
 import java.util.InputMismatchException;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class UserInterface {
@@ -184,23 +185,23 @@ public class UserInterface {
 		System.out.println(jackChangeIt.getCurrentPlayersName() + " has picked up a card.");
 	}
 
-	int getValidUserInput(int lowerBound, int upperBound) {
+	int getValidUserInput(int lowerBound, int upperBound) throws NoSuchElementException{
 		int userInput = -1;
 
 		while (true) {
 			try {
 				userInput = getScanner().nextInt();
 
-				if (userInput < lowerBound || userInput > upperBound) {
+				if (userInput < lowerBound || userInput > upperBound){
 					System.out.println("Please enter a valid number in the range " + lowerBound + " - " + upperBound);
 				} else {
 					return userInput;
 				}
-			} catch (NumberFormatException | InputMismatchException e) {
+			} catch  (InputMismatchException e) {
 				System.err.println("Please enter a valid number");
-			} catch (Exception e) {
-				System.out.println("Please try again.");
-			} finally {
+			} catch (NoSuchElementException e){
+				throw new NoSuchElementException("No suitable input");
+			} finally{
 				getScanner().nextLine();
 			}
 		}

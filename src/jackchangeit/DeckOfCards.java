@@ -42,7 +42,7 @@ public final class DeckOfCards {
 	 * @return burnDeck
 	 */
 	private ArrayList<Card> getBurnDeck() {
-		return burnDeck;
+		return new ArrayList<>(burnDeck);
 	}
 
 	/**
@@ -54,10 +54,10 @@ public final class DeckOfCards {
 		SecureRandom randomNumbers = new SecureRandom();
 
 		// for each card, pick another random Card(0-51) then swap them
-		for (int firstNumber = 0; firstNumber < burnDeck.size(); firstNumber++) {
-			int secondNumber = randomNumbers.nextInt(burnDeck.size());
+		for (int firstCard = 0; firstCard < burnDeck.size(); firstCard++) {
+			int secondCard = randomNumbers.nextInt(burnDeck.size());
 
-			Collections.swap(burnDeck, firstNumber, secondNumber);
+			Collections.swap(burnDeck, firstCard, secondCard);
 		}
 
 		// next add the shuffled deck to the queue ready for play

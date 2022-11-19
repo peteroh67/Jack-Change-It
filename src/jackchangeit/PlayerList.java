@@ -1,5 +1,6 @@
 package jackchangeit;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -11,23 +12,23 @@ public final class PlayerList {
 
 	/**
 	 * Constructs a List of players of size numberOfPlayers using names input from
-	 * the user
+	 * the user -- as a new list for encapsulation / avoids names being changed 
 	 * 
 	 * @param numberOfPlayers
 	 * @param scanner
 	 */
 	public PlayerList(List<Player> players) {
-		this.players = players;
+		this.players = new ArrayList<>(players);
 		currentPlayerIndex = 0;
 	}
 
 	/**
-	 * Get the List of players
+	 * Get the List of players, encapsulation returns new list
 	 * 
 	 * @return players
 	 */
 	List<Player> getPlayerList() {
-		return players;
+		return new ArrayList<>(this.players);
 	}
 	
 	/**
@@ -102,7 +103,7 @@ public final class PlayerList {
 	 * CurrentPlayerIndex will be incremented in the main game loop so it must be
 	 * decremented when player order is reversed to maintain correct order.
 	 */
-	void decrementCurrentPlayer(Player nextPlayer) {
+	private void decrementCurrentPlayer(Player nextPlayer) {
 		for (int i = 0; i < players.size(); i++) {
 			if (players.get(i).equals(nextPlayer)) {
 				if (i == 0) {
