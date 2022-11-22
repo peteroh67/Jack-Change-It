@@ -202,7 +202,9 @@ public class UserInterface {
 			} catch (NoSuchElementException e){
 				throw new NoSuchElementException("No suitable input");
 			} finally{
-				getScanner().nextLine();
+				if(getScanner().hasNext()) {
+					getScanner().nextLine();
+				}
 			}
 		}
 
