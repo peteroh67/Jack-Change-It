@@ -9,7 +9,7 @@ Subsequent players must play a card that matches the suit or face of the new top
 If a player does not have a valid card to play, then they must pick up a card from the deck. 
 Players can also choose to pick up a card instead of playing a valid card.
 
-There are several trick cards
+***Trick cards***
 2 -- The next player must pick up 2 cards instead of playing a card
 8 -- The next player misses a turn
 Q -- Changes the direction of play
