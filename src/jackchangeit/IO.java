@@ -20,39 +20,12 @@ public class IO {
 	void welcome() {
 		System.out.println("------------------Welcome to Jack Change It.------------------");
 	}
-
-	String getName(int playerNumber) {
-
-		boolean nameIsValid;
-		String playerName = "";
-
-		do {
-			try {
-				nameIsValid = true;
-				System.out.println("Player " + playerNumber + " : Enter your name.");
-				playerName = scanner.nextLine();
-
-				if (playerName.isBlank()) {
-					throw new RuntimeException();
-				}
-
-			} catch (RuntimeException e) { // other exceptions need caught
-				System.err.printf("Try again. Invalid input.%n");
-				nameIsValid = false;
-
-			}
-		} while (!nameIsValid);
-
-		return playerName;
-
-	}
-
+	
 	private int getValidUserInput(int lowerBound, int upperBound) {
 
 		int userInput = -1;
-		boolean validInput = false;
 
-		do {
+		while(true) {
 			
 			try {
 				userInput = scanner.nextInt();
@@ -60,24 +33,47 @@ public class IO {
 				if (userInput < lowerBound || userInput > upperBound) {
 					System.out.println("Please enter a valid number in the range " + lowerBound + " - " + upperBound);
 				} else {
-					validInput = true;
+					return userInput;
 				}
 
 			} catch (InputMismatchException e) {
 				System.err.println("Please enter a valid number");
-			} catch(NoSuchElementException e) {
-				System.err.println("No valid input");
-			} finally {
 				if(scanner.hasNext()) {
 					scanner.nextLine();
 				}
-			}
+			} catch(NoSuchElementException e) {
+				System.err.println("No valid input");
+			} 
 			
-		} while (!validInput);
-
-		return userInput;
-
+		}	
+			
 	}
+
+	String getName(int playerNumber) {
+		
+		while(true) {
+			try {
+				
+				System.out.println("Player " + playerNumber + " : Enter your name.");
+				String playerName = scanner.nextLine();
+				System.out.println("You have entered " + playerName);
+				return playerName;
+			} catch(NoSuchElementException e) {
+				System.err.printf("Try again. Invalid input.%n");
+			}
+		}
+	}
+	
+	public void playerNamesSuccessful(List<Player> players) {
+		System.out.println("The " + players.size() + " player names are : ");
+		
+		for(int i = 0 ; i < players.size() ; i++) {	
+			System.out.print(players.get(i).getPlayerName() + "\t");
+		}
+		System.out.println();
+	}
+
+	
 
 	void cardsHaveBeenDealt() {
 		System.out.println("The deck has been shuffled and each player has been dealt "
@@ -157,7 +153,7 @@ public class IO {
 		}
 
 		outputPlayersPoints(gameState);
-
+		closeScanner();
 	}
 
 	private void outputPlayersPoints(GameState gameState) {
@@ -175,7 +171,10 @@ public class IO {
 		System.out.printf("How many players? %d - %s%n", JackChangeIt.MIN_NUM_OF_PLAYERS,
 				JackChangeIt.MAX_NUM_OF_PLAYERS);
 
-		return getValidUserInput(JackChangeIt.MIN_NUM_OF_PLAYERS, JackChangeIt.MAX_NUM_OF_PLAYERS);
+		int numOfPlayers = getValidUserInput(JackChangeIt.MIN_NUM_OF_PLAYERS, JackChangeIt.MAX_NUM_OF_PLAYERS);
+		System.out.println("You have chosen a game of " + numOfPlayers + " players");
+		scanner.nextLine();
+		return numOfPlayers;
 	}
 
 	public void invalidCard() {
@@ -228,4 +227,5 @@ public class IO {
 	public void pickUpFive(String nextPlayerName) {
 		System.out.println(nextPlayerName + " has picked up 5 cards.");
 	}
+
 }

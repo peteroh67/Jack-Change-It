@@ -2,7 +2,6 @@ package jackchangeit;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 public final class JackChangeIt {
 
@@ -25,7 +24,6 @@ public final class JackChangeIt {
 		getAStartingCard();
 		playGame();
 		IO.gameOver(gameState);
-		IO.closeScanner();
 	}
 	
 	/**
@@ -49,6 +47,8 @@ public final class JackChangeIt {
 			gamePlayers.add(newPlayer);
 			
 		} 
+		
+		IO.playerNamesSuccessful(gamePlayers);
 		
 		gameState.createPlayers(gamePlayers);
 	}
