@@ -4,56 +4,44 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Player List holds a list of players and a pointer for the current player in a
+ * game of Jack Change It. There are methods to manipulate the list when trick
+ * cards are played such as Queen reverses order.
+ * 
+ * @author Peter O'Hare
+ *
+ */
 public final class PlayerList {
 
 	private List<Player> players;
-
 	private int currentPlayerIndex;
 
 	/**
-	 * Constructs a List of players of size numberOfPlayers using names input from
-	 * the user -- as a new list for encapsulation / avoids names being changed 
-	 * 
-	 * @param numberOfPlayers
-	 * @param scanner
+	 * Copies the list argument for encapsulation
+	 * @param players
 	 */
 	public PlayerList(List<Player> players) {
 		this.players = new ArrayList<>(players);
 		currentPlayerIndex = 0;
 	}
 
-	/**
-	 * Get the List of players, encapsulation returns new list
-	 * 
-	 * @return players
-	 */
 	List<Player> getPlayerList() {
 		return new ArrayList<>(this.players);
 	}
-	
-	/**
-	 * Get the current player whose turn it is
-	 * 
-	 * @return current player
-	 */
+
 	Player getCurrentPlayer() {
 		return players.get(getCurrentPlayerIndex());
 	}
 
-	/**
-	 * Get the List index of the current player
-	 * 
-	 * @return currentPlayerIndex
-	 */
 	int getCurrentPlayerIndex() {
 		return this.currentPlayerIndex;
 	}
 
-
-
 	/**
-	 * Get the next player whose turn it is. If the current player is located in the
-	 * last index in the List then the player at index 0 is next
+	 * Get the player whose turn it is next. Used when some trick cards are played
+	 * If the current player is located in the last index in the List then the
+	 * player at index 0 is next
 	 * 
 	 * @return next player
 	 */
@@ -70,21 +58,14 @@ public final class PlayerList {
 	 * last index in the List then the currentPlayerIndex is set to index 0.
 	 */
 	void incrementCurrentPlayer() {
-		// if current player is the last in list then reset to index 0
 		if (getCurrentPlayerIndex() == (getPlayerList().size() - 1)) {
 			setCurrentPlayerIndex(0);
 		} else {
-			// current player is not last in list so increment current player index by 1
 			setCurrentPlayerIndex(getCurrentPlayerIndex() + 1);
 		}
 	}
-	
-	/**
-	 * Set the current player index
-	 * 
-	 * @param currentPlayerIndex
-	 */
-	void setCurrentPlayerIndex(int currentPlayerIndex) {
+
+	private void setCurrentPlayerIndex(int currentPlayerIndex) {
 		this.currentPlayerIndex = currentPlayerIndex;
 	}
 
@@ -96,7 +77,7 @@ public final class PlayerList {
 		Player nextPlayer = getNextPlayerAfterReversal();
 		Collections.reverse(players);
 		decrementCurrentPlayer(nextPlayer);
-		
+
 	}
 
 	/**
@@ -117,9 +98,10 @@ public final class PlayerList {
 
 	/**
 	 * Get the player whose turn it will be when player order is reversed
+	 * 
 	 * @return nextPlayer after reversal
 	 */
-	Player getNextPlayerAfterReversal() {
+	private Player getNextPlayerAfterReversal() {
 		if (getCurrentPlayerIndex() == 0) {
 			return players.get(players.size() - 1);
 		} else {

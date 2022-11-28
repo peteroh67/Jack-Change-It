@@ -2,20 +2,34 @@ package jackchangeit;
 
 import java.util.List;
 
+/**
+ * This class holds the data for a single game of Jack Change It, including the
+ * state of the deck, the players, the last suit chosen when a player played a
+ * jack, and if Game over is set. Methods therein manipulate these variables
+ * according to the game play.
+ * 
+ * @author Peter O'Hare
+ *
+ */
 public class GameState {
-	
+
 	private DeckOfCards deck;
 	private PlayerList players;
 	private boolean gameOver;
 	private CardSuit chosenJackSuit;
-	
+
 	public GameState() {
 		deck = new DeckOfCards();
 		gameOver = false;
 	}
-	
+
+	/**
+	 * The deck is shuffled and each player is dealt 7 cards sequentially
+	 * 
+	 * @return
+	 */
 	boolean dealCards() {
-		
+
 		deck.shuffleDeck();
 
 		for (int i = 0; i < JackChangeIt.NUMBER_OF_STARTING_CARDS; i++) {
@@ -25,7 +39,7 @@ public class GameState {
 		}
 		return true;
 	}
-	
+
 	List<Player> getPlayers() {
 		return this.players.getPlayerList();
 	}
@@ -33,7 +47,7 @@ public class GameState {
 	CardSuit getChosenJackSuit() {
 		return this.chosenJackSuit;
 	}
-	
+
 	void setChosenjackSuit(CardSuit suitChoice) {
 		chosenJackSuit = suitChoice;
 	}
@@ -45,22 +59,22 @@ public class GameState {
 	Player getCurrentPlayer() {
 		return players.getCurrentPlayer();
 	}
-	
+
 	String getCurrentPlayersName() {
 		return getCurrentPlayer().getPlayerName();
 	}
-	
+
 	Player getNextPlayer() {
 		return players.getNextPlayer();
 	}
-	
+
 	Card getLastPlayedCard() {
 		return deck.getTopBurnCard();
 	}
 
 	List<Card> getCurrentPlayersCards() {
 		return getCurrentPlayer().getPlayerCards();
-	
+
 	}
 
 	boolean hasPlayerPlayedTheirLastCard() {
@@ -91,7 +105,7 @@ public class GameState {
 	public void pickUpFive() {
 		for (int i = 1; i <= JackChangeIt.ACE_OF_H_PICK_UP_AMOUNT; i++) {
 			players.getNextPlayer().addToPlayerCards(deck.dealCard());
-		}		
+		}
 	}
 
 	/**
@@ -111,7 +125,7 @@ public class GameState {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Validate a players chosen card. A jack is always a valid move. If the last
 	 * played card was a jack then the players card is valid if it matches the last
@@ -135,16 +149,16 @@ public class GameState {
 
 	public void burnCard(Card selectedCard) {
 		deck.addCardToBurnDeck(selectedCard);
-		
+
 	}
 
 	public void missATurn() {
-		players.incrementCurrentPlayer();		
+		players.incrementCurrentPlayer();
 	}
 
 	public void pickUpTwo() {
 		players.getNextPlayer().addToPlayerCards(deck.dealCard());
-		players.getNextPlayer().addToPlayerCards(deck.dealCard());		
+		players.getNextPlayer().addToPlayerCards(deck.dealCard());
 	}
 
 	public void getAStartingCard() {
@@ -157,7 +171,7 @@ public class GameState {
 	}
 
 	public void pickUpACard() {
-		getCurrentPlayer().addToPlayerCards(deck.dealCard());		
+		getCurrentPlayer().addToPlayerCards(deck.dealCard());
 	}
 
 	void nextPlayersTurn() {

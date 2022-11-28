@@ -1,15 +1,14 @@
 package jackchangeit;
-
+/**
+ * 
+ * @author Peter O'Hare
+ *
+ */
 public final class Card {
 	
 	private CardFace face;
-	
 	private CardSuit suit;
 	
-	/**
-	 * @param cardFace
-	 * @param cardSuit
-	 */
 	public Card(CardFace cardFace, CardSuit cardSuit) {
 		this.face = cardFace;
 		this.suit = cardSuit;
@@ -23,6 +22,10 @@ public final class Card {
 		return suit;
 	}
 	
+	/**
+	 * Checks if the card is a trick card
+	 * @return trick if Card is a trick card
+	 */
 	boolean isTrickCard() {
 		if (getFace().equals(CardFace.EIGHT) || getFace().equals(CardFace.JACK)
 				|| getFace().equals(CardFace.QUEEN) || getFace().equals(CardFace.TWO)
@@ -33,6 +36,10 @@ public final class Card {
 		return false;	
 	}
 	
+	/**
+	 * Returns the point ranking for the Card
+	 * @return
+	 */
 	int getCardPoints() {
 		int points = 0;
 		if ((this.getFace().equals(CardFace.ACE) && this.getSuit().equals(CardSuit.HEART))
@@ -78,14 +85,6 @@ public final class Card {
 			}
 		}
 		return points;
-	}
-
-	/**
-	 * 
-	 */
-	@Override
-	public String toString() {
-		return getFace() + " of " + getSuit();
 	}
 
 }

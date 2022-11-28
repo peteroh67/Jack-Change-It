@@ -3,39 +3,41 @@ package jackchangeit;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class holds the details and methods needed to play Jack Change It. It
+ * contains classes, IO which represents a user interface, and GameState which
+ * holds the details of the current game.
+ * 
+ * @author Peter O'Hare
+ *
+ */
 public final class JackChangeIt {
 
 	static final int NUMBER_OF_STARTING_CARDS = 7;
 	static final int ACE_OF_H_PICK_UP_AMOUNT = 5;
 	static final int MAX_NUM_OF_PLAYERS = 6;
 	static final int MIN_NUM_OF_PLAYERS = 3;
-	
+
 	private IO IO;
 	private GameState gameState;
-	
+
 	public JackChangeIt() {
 		gameState = new GameState();
 		IO = new IO();
 	}
-	
-	public void start() {	
+
+	/**
+	 * This method initiates a new game. It contains method calls for each stage of
+	 * the game
+	 */
+	public void start() {
 		createPlayers();
 		dealCards();
 		getAStartingCard();
 		playGame();
 		IO.gameOver(gameState);
 	}
-	
-	/**
-	 * Shuffles the deck ready for a new game. Adds 7 cards to each player,
-	 * sequentially.
-	 */
-	void dealCards() {
-		gameState.dealCards();
-		IO.cardsHaveBeenDealt();	
-	}
-	
-	
+
 	private void createPlayers() {
 
 		int numberOfPlayers = IO.getNumberOfPlayers();
@@ -45,33 +47,39 @@ public final class JackChangeIt {
 			String name = IO.getName(i);
 			Player newPlayer = new Player(name);
 			gamePlayers.add(newPlayer);
-			
-		} 
-		
+
+		}
+
 		IO.playerNamesSuccessful(gamePlayers);
-		
+
 		gameState.createPlayers(gamePlayers);
 	}
-	
+
 	/**
-	 * Ensures starting card is not a trick card, 2, J, Q, AofH, 5ofH.
-	 * 
-	 * @return
+	 * Shuffles the deck ready for a new game. Adds 7 cards to each player,
+	 * sequentially.
+	 */
+	void dealCards() {
+		gameState.dealCards();
+		IO.cardsHaveBeenDealt();
+	}
+
+	/**
+	 * Gets a starting card for a new game and ensures starting card is not a trick
+	 * card, 2, J, Q, AofH, 5ofH.
 	 */
 	private void getAStartingCard() {
-		
+
 		gameState.getAStartingCard();
 		IO.startingCard(gameState);
-	
 
 		if (gameState.getLastPlayedCard().isTrickCard()) {
 			getAStartingCard();
 		}
 	}
-	
-	
+
 	/**
-	 * Main game loop.
+	 * Main game loop. Loops until a player runs out of cards or chooses to quit
 	 * 
 	 */
 	void playGame() {
@@ -88,17 +96,19 @@ public final class JackChangeIt {
 		} while (!gameState.isGameOver());
 	}
 
-	
+	/**
+	 * Player decides to play a card from their hand or pick up a new Card
+	 */
 	void pickUpOrPlayChoice() {
 		int pickUpOrPlay = IO.pickupOrPlayChoice();
-		
-		if(pickUpOrPlay == 1) {
+
+		if (pickUpOrPlay == 1) {
 			playerChoosesToPlayACard();
 		} else {
 			pickUpACard();
 		}
 	}
-	
+
 	/**
 	 * Gives player the option to take a turn or quit the game. If player quits game
 	 * the flag gameOver is set to true, ending the game by exiting the main game
@@ -115,8 +125,11 @@ public final class JackChangeIt {
 			gameState.setGameOver(true);
 		}
 	}
-	
-	
+
+	/**
+	 * Check if the player has a valid card and if so select a card and play it. If
+	 * player does not have a valid card then they must pick up a card
+	 */
 	void playerChoosesToPlayACard() {
 		if (gameState.hasPlayerAValidCard()) {
 			playCard(selectACard());
@@ -125,11 +138,11 @@ public final class JackChangeIt {
 			pickUpACard();
 		}
 	}
-	
+
 	/**
-	 * The players cards have been displayed next to integers in the calling method.
-	 * If the chosen card is verified as a legal move then it is removed from the
-	 * players hand and returned.
+	 * IO is called so the player can select a card from their hand. If this is a
+	 * legal move then it is returned. If it is not a legal move then the player
+	 * must choose a different card
 	 * 
 	 * @return the players chosen card
 	 */
@@ -146,6 +159,7 @@ public final class JackChangeIt {
 		}
 
 	}
+
 	/**
 	 * The selected card is added to the burn deck and the card is output. The card
 	 * is then checked for tricks, and if true then the correct action is called.
@@ -153,7 +167,7 @@ public final class JackChangeIt {
 	 * @param selectedCard
 	 */
 	void playCard(Card selectedCard) {
-		System.out.println(gameState.getCurrentPlayersName() + " has played " + selectedCard.toString());
+		IO.playCard(selectedCard, gameState);
 		gameState.getCurrentPlayer().removeCardFromHand(selectedCard);
 		gameState.burnCard(selectedCard);
 
@@ -161,7 +175,12 @@ public final class JackChangeIt {
 			playTrickCard(selectedCard);
 		}
 	}
-	
+
+	/**
+	 * If a trick card is played the sequence for this type of trick is initiated.
+	 * 
+	 * @param selectedCard
+	 */
 	void playTrickCard(Card selectedCard) {
 		switch (selectedCard.getFace()) {
 		case TWO:
@@ -194,6 +213,12 @@ public final class JackChangeIt {
 
 	}
 
+	/**
+	 * When a Jack is played the player may choose which suit is now valid for the
+	 * gameplay
+	 * 
+	 * @param suitChoice
+	 */
 	void changeSuit(int suitChoice) {
 		CardSuit chosenJackSuit = null;
 
@@ -210,6 +235,12 @@ public final class JackChangeIt {
 		IO.jackChangedSuit(gameState);
 	}
 
+	/**
+	 * 5 of Hearts can block the A of Hearts, so if the Ace is played a check is
+	 * done to see if the target holds the five. If they hold the five they get the
+	 * option to block the attack. If they do not hold the five then they must pick
+	 * up 5
+	 */
 	void playAceOfHearts() {
 		if (gameState.isNextPlayerHoldingFiveOfHearts()) {
 			fiveOfHeartsDefence();
@@ -218,9 +249,13 @@ public final class JackChangeIt {
 		}
 	}
 
+	/**
+	 * The player holds a five of Hearts. They must choose to play this card or pick
+	 * up 5 cards
+	 */
 	void fiveOfHeartsDefence() {
 		String nextPlayerName = gameState.getNextPlayer().getPlayerName();
-		
+
 		int fiveOfHeartsChoice = IO.fiveOfHeartsDefence(nextPlayerName);
 
 		if (fiveOfHeartsChoice == 1) {
@@ -230,20 +265,25 @@ public final class JackChangeIt {
 			pickUpFive();
 		}
 	}
-	
 
+	/**
+	 * 5 of Hearts is played as defence to Ace of Hearts
+	 */
 	void playFiveOfHearts() {
 		Card fiveOfHearts = new Card(CardFace.FIVE, CardSuit.HEART);
-		gameState.getNextPlayer().getPlayerCards().remove(fiveOfHearts);
+		gameState.getNextPlayer().removeCardFromHand(fiveOfHearts);
 		missATurn();
 	}
 
+	/**
+	 * Deals 5 cards to the next player
+	 */
 	void pickUpFive() {
 		IO.pickUpFive(gameState.getNextPlayer().getPlayerName());
 		gameState.pickUpFive();
 		missATurn();
-	}	
-	
+	}
+
 	/**
 	 * Deals 1 card and adds it to the current players hand.
 	 * 
@@ -251,7 +291,7 @@ public final class JackChangeIt {
 	 */
 	void pickUpACard() {
 		gameState.pickUpACard();
-		IO.pickUp(gameState.getCurrentPlayer());
+		IO.pickUpACard(gameState.getCurrentPlayer());
 	}
 
 	/**
@@ -272,17 +312,12 @@ public final class JackChangeIt {
 	}
 
 	/**
-	 * Makes the next player pick up 2 cards for when a player plays a 2. This
-	 * constitutes the players go so missATurn is called.
+	 * Makes the next player pick up 2 cards for when a player plays a 2.
 	 */
 	void pickUpTwo() {
 		IO.pickUpTwo(gameState.getNextPlayer().getPlayerName());
 		gameState.pickUpTwo();
 		missATurn();
 	}
-
-
-
-	
 
 }
