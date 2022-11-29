@@ -34,10 +34,6 @@ public final class PlayerList {
 		return players.get(getCurrentPlayerIndex());
 	}
 
-	int getCurrentPlayerIndex() {
-		return this.currentPlayerIndex;
-	}
-
 	/**
 	 * Get the player whose turn it is next. Used when some trick cards are played
 	 * If the current player is located in the last index in the List then the
@@ -79,6 +75,10 @@ public final class PlayerList {
 		decrementCurrentPlayer(nextPlayer);
 
 	}
+	
+	private int getCurrentPlayerIndex() {
+		return this.currentPlayerIndex;
+	}
 
 	/**
 	 * CurrentPlayerIndex will be incremented in the main game loop so it must be
@@ -86,7 +86,7 @@ public final class PlayerList {
 	 */
 	private void decrementCurrentPlayer(Player nextPlayer) {
 		for (int i = 0; i < players.size(); i++) {
-			if (players.get(i).equals(nextPlayer)) {
+			if (players.get(i).equals(nextPlayer/*getNextPlayer()*/)) {
 				if (i == 0) {
 					setCurrentPlayerIndex(players.size() - 1);
 				} else {
