@@ -21,6 +21,7 @@ Once a player runs out of cards. The other players cards are tallied to get tota
 The lower the ranking the better and the player who ran out of cards gets 0 points.
 All trick cards get a total of 20 points. All other cards get their face value.
 
-![JackChangeItClassDia](https://user-images.githubusercontent.com/67584385/213870311-b50ec207-8264-40b2-aa5b-c9441f1a83c4.png)
+![Jack Change It](https://user-images.githubusercontent.com/67584385/213870381-3e2f6a3c-c851-46af-bd27-6c039962bac0.png)
+
 
 
