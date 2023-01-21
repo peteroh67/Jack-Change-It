@@ -6,8 +6,12 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.Queue;
 
+/**
+ * 
+ * @author Peter O'Hare
+ *
+ */
 public final class DeckOfCards {
-	
 
 	/**
 	 * Holds the previously played cards. The last card in the list will be the last
@@ -16,7 +20,7 @@ public final class DeckOfCards {
 	private ArrayList<Card> burnDeck;
 
 	/**
-	 * Holds the queue of cards representing the shuffled deck
+	 * Holds the queue of cards to be dealt representing the shuffled deck
 	 */
 	private Queue<Card> deckQueue;
 
@@ -82,7 +86,7 @@ public final class DeckOfCards {
 
 	/**
 	 * Deals one card. Checks if any cards remain to be dealt. If the deck is empty
-	 * then all 52 cards must be in burn pile so this is shuffled and the queue is
+	 * then all 52 cards are in the burn pile so this is shuffled and the queue is
 	 * re-populated. The top burn card must be removed first so it is not shuffled
 	 * into the queue, then it is re-added to the burn deck as the only card. A
 	 * recursive method call will then deal the next card.
@@ -107,6 +111,5 @@ public final class DeckOfCards {
 	Card getTopBurnCard() {
 		return getBurnDeck().get(getBurnDeck().size() - 1);
 	}
-
 
 }

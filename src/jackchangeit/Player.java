@@ -3,6 +3,13 @@ package jackchangeit;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class is used for each player in a game of Jack Change It. Each player
+ * has a name and a hand of cards.
+ * 
+ * @author Peter O'Hare
+ *
+ */
 public final class Player {
 
 	private String playerName;
@@ -41,6 +48,13 @@ public final class Player {
 		playerCards.remove(card);
 	}
 
+	/**
+	 * If a player holds the card argument then its index in the card list is
+	 * returned. If the card is not present -1 is returned
+	 * 
+	 * @param card
+	 * @return
+	 */
 	int getCardIndex(Card card) {
 		int cardIndex = -1;
 
