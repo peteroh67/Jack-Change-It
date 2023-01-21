@@ -23,5 +23,15 @@ All trick cards get a total of 20 points. All other cards get their face value.
 
 ![Jack Change It](https://user-images.githubusercontent.com/67584385/213870381-3e2f6a3c-c851-46af-bd27-6c039962bac0.png)
 
+As a console game, all input and output is achieved through the IO class. Users make their decisions primarily by entering int values following an output of their possible valid inputs. IO has a Scanner as an instance variable which is initialised in the constructor and closed using method closeScanner() which is called by the outputGameOver() method. Many of the methods in IO handle output only. The methods requiring int user input will utilise method getValidUserInput() to validate the input and check for exceptions. The only other input requirement is when the users enter their name during the game setup. This is handled by method inputName() which takes a String input.
+
+Gamestate contains instance variables PlayerList and DeckOfCards to manage the state of the Game. 
+
+PlayerList contains a List of 3 - 6 players. This list is passed in the constructor when Gamestate is initialised in JackChangeIt method createPlayers().
+
+JackChangeIt contains the constants required for gameplay, instance variables IO and Gamestate. JackChangeIt contains numerous methods which will control the input/output using the IO variable, and then use the Gamestate variable to manage the subsequent changes in the state of the game. 
+
+JackChangeIt method playGame() contains the main game loop. Prior to playGame() the players are created, the cards are dealt and a valid starting card is assigned. After playGame() IO is called to output the game over status which includes player points and the winner.
+
 
 
