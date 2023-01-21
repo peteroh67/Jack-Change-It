@@ -35,22 +35,22 @@ public final class JackChangeIt {
 		dealCards();
 		getAStartingCard();
 		playGame();
-		IO.gameOver(gameState);
+		IO.outputGameOver(gameState);
 	}
 
 	private void createPlayers() {
 
-		int numberOfPlayers = IO.getNumberOfPlayers();
+		int numberOfPlayers = IO.inputNumberOfPlayers();
 		List<Player> gamePlayers = new ArrayList<>();
 
 		for (int i = 1; i <= numberOfPlayers; i++) {
-			String name = IO.getName(i);
+			String name = IO.inputName(i);
 			Player newPlayer = new Player(name);
 			gamePlayers.add(newPlayer);
 
 		}
 
-		IO.playerNamesSuccessful(gamePlayers);
+		IO.outputAllPlayerNames(gamePlayers);
 
 		gameState.createPlayers(gamePlayers);
 	}
@@ -59,9 +59,9 @@ public final class JackChangeIt {
 	 * Shuffles the deck ready for a new game. Adds 7 cards to each player,
 	 * sequentially.
 	 */
-	void dealCards() {
+	private void dealCards() {
 		gameState.dealCards();
-		IO.cardsHaveBeenDealt();
+		IO.outputCardsHaveBeenDealt();
 	}
 
 	/**
@@ -71,7 +71,7 @@ public final class JackChangeIt {
 	private void getAStartingCard() {
 
 		gameState.getAStartingCard();
-		IO.startingCard(gameState);
+		IO.outputStartingCard(gameState);
 
 		if (gameState.getLastPlayedCard().isTrickCard()) {
 			getAStartingCard();
@@ -100,7 +100,7 @@ public final class JackChangeIt {
 	 * Player decides to play a card from their hand or pick up a new Card
 	 */
 	private void pickUpOrPlayChoice() {
-		int pickUpOrPlay = IO.pickupOrPlayChoice();
+		int pickUpOrPlay = IO.inputPickupOrPlayChoice();
 
 		if (pickUpOrPlay == 1) {
 			playerChoosesToPlayACard();
@@ -116,10 +116,10 @@ public final class JackChangeIt {
 	 */
 	private void takeTurnOrQuitChoice() {
 
-		int playerChoice = IO.takeTurnOrQuitChoice();
+		int playerChoice = IO.inputTakeTurnOrQuitChoice();
 
 		if (playerChoice == 1) {
-			IO.preturnPlayerGameState(gameState);
+			IO.outputPreturnPlayerGameState(gameState);
 			pickUpOrPlayChoice();
 		} else if (playerChoice == 2) {
 			gameState.setGameOver(true);
@@ -134,7 +134,7 @@ public final class JackChangeIt {
 		if (gameState.hasPlayerAValidCard()) {
 			playCard(selectACard());
 		} else {
-			IO.noValidCards();
+			IO.outputNoValidCards();
 			pickUpACard();
 		}
 	}
@@ -147,14 +147,14 @@ public final class JackChangeIt {
 	 * @return the players chosen card
 	 */
 	private Card selectACard() {
-		int selectedCardIndex = IO.getPlayersChosenCard(gameState);
+		int selectedCardIndex = IO.inputPlayersChosenCard(gameState.getCurrentPlayer());
 
 		Card c = gameState.getCurrentPlayer().getCard(selectedCardIndex);
 
 		if (gameState.verifyLegalMove(c)) {
 			return c;
 		} else {
-			IO.invalidCard();
+			IO.outputInvalidCard();
 			return selectACard();
 		}
 
@@ -167,7 +167,7 @@ public final class JackChangeIt {
 	 * @param selectedCard
 	 */
 	private void playCard(Card selectedCard) {
-		IO.playCard(selectedCard, gameState);
+		IO.outputPlayCard(selectedCard, gameState.getCurrentPlayer());
 		gameState.getCurrentPlayer().removeCardFromHand(selectedCard);
 		gameState.burnCard(selectedCard);
 
@@ -203,13 +203,9 @@ public final class JackChangeIt {
 		}
 	}
 
-	/**
-	 * Stores the players chosen suit for the game in the variable
-	 * lastChosenJackChangeSuit.
-	 * 
-	 */
+
 	private void selectASuit() {
-		changeSuit(IO.selectASuit());
+		changeSuit(IO.inputSelectASuit());
 
 	}
 
@@ -232,7 +228,7 @@ public final class JackChangeIt {
 			chosenJackSuit = CardSuit.SPADE;
 		}
 		gameState.setChosenjackSuit(chosenJackSuit);
-		IO.jackChangedSuit(gameState);
+		IO.outputJackChangedSuit(gameState);
 	}
 
 	/**
@@ -254,13 +250,13 @@ public final class JackChangeIt {
 	 * up 5 cards
 	 */
 	private void fiveOfHeartsDefence() {
-		String nextPlayerName = gameState.getNextPlayer().getPlayerName();
+		Player nextPlayer = gameState.getNextPlayer();
 
-		int fiveOfHeartsChoice = IO.fiveOfHeartsDefence(nextPlayerName);
+		int fiveOfHeartsChoice = IO.outputFiveOfHeartsDefence(nextPlayer);
 
 		if (fiveOfHeartsChoice == 1) {
 			playFiveOfHearts();
-			IO.fiveOfHeartsIsPlayed(nextPlayerName);
+			IO.outputFiveOfHeartsIsPlayed(nextPlayer);
 		} else {
 			pickUpFive();
 		}
@@ -279,7 +275,7 @@ public final class JackChangeIt {
 	 * Deals 5 cards to the next player
 	 */
 	private void pickUpFive() {
-		IO.pickUpFive(gameState.getNextPlayer().getPlayerName());
+		IO.outputPickUpFive(gameState.getNextPlayer());
 		gameState.pickUpFive();
 		missATurn();
 	}
@@ -291,14 +287,14 @@ public final class JackChangeIt {
 	 */
 	private void pickUpACard() {
 		gameState.pickUpACard();
-		IO.pickUpACard(gameState.getCurrentPlayer());
+		IO.outputPickUpACard(gameState.getCurrentPlayer());
 	}
 
 	/**
 	 * Reverses the order of play. This is called when a player plays a Queen.
 	 */
 	private void reversePlay() {
-		IO.reverse();
+		IO.outputReverse();
 		gameState.reversePlayerOrder();
 	}
 
@@ -307,7 +303,7 @@ public final class JackChangeIt {
 	 * Eight.
 	 */
 	private void missATurn() {
-		IO.missATurn(gameState.getNextPlayer().getPlayerName());
+		IO.outputMissATurn(gameState.getNextPlayer());
 		gameState.missATurn();
 	}
 
@@ -315,7 +311,7 @@ public final class JackChangeIt {
 	 * Makes the next player pick up 2 cards for when a player plays a 2.
 	 */
 	private void pickUpTwo() {
-		IO.pickUpTwo(gameState.getNextPlayer().getPlayerName());
+		IO.outputPickUpTwo(gameState.getNextPlayer());
 		gameState.pickUpTwo();
 		missATurn();
 	}

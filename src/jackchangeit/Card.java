@@ -87,4 +87,11 @@ public final class Card {
 		return points;
 	}
 
+	@Override
+	public String toString() {
+		return  face + " of " + suit + "'s";
+	}
+	
+	
+
 }

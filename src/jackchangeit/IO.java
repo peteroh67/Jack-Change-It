@@ -25,7 +25,7 @@ public class IO {
 		scanner.close();
 	}
 
-	void welcome() {
+	void outputWelcome() {
 		System.out.println("------------------Welcome to Jack Change It.------------------");
 	}
 
@@ -68,7 +68,7 @@ public class IO {
 	 * @param playerNumber
 	 * @return
 	 */
-	String getName(int playerNumber) {
+	String inputName(int playerNumber) {
 
 		while (true) {
 			try {
@@ -87,7 +87,7 @@ public class IO {
 	 * 
 	 * @return
 	 */
-	int getNumberOfPlayers() {
+	int inputNumberOfPlayers() {
 
 		System.out.printf("How many players? %d - %s%n", JackChangeIt.MIN_NUM_OF_PLAYERS,
 				JackChangeIt.MAX_NUM_OF_PLAYERS);
@@ -98,7 +98,7 @@ public class IO {
 		return numOfPlayers;
 	}
 
-	public void playerNamesSuccessful(List<Player> players) {
+	public void outputAllPlayerNames(List<Player> players) {
 		System.out.println("The " + players.size() + " player names are : ");
 
 		for (int i = 0; i < players.size(); i++) {
@@ -107,12 +107,12 @@ public class IO {
 		System.out.println();
 	}
 
-	void cardsHaveBeenDealt() {
+	void outputCardsHaveBeenDealt() {
 		System.out.println("The deck has been shuffled and each player has been dealt "
 				+ JackChangeIt.NUMBER_OF_STARTING_CARDS + " cards.");
 	}
 
-	void startingCard(GameState gameState) {
+	void outputStartingCard(GameState gameState) {
 		System.out.println("Dealing a starting card...");
 
 		Card c = gameState.getLastPlayedCard();
@@ -127,7 +127,7 @@ public class IO {
 		System.out.println("It is " + player.getPlayerName() + "'s turn.");
 	}
 
-	int takeTurnOrQuitChoice() {
+	int inputTakeTurnOrQuitChoice() {
 		System.out.println("Please select an option");
 		System.out.println("1 Take turn");
 		System.out.println("2 Quit game");
@@ -135,10 +135,10 @@ public class IO {
 		return getValidUserInput(1, 2);
 	}
 
-	void preturnPlayerGameState(GameState gameState) {
+	void outputPreturnPlayerGameState(GameState gameState) {
 
 		System.out.println(gameState.getCurrentPlayersName() + " - Your cards : ");
-		displayPlayersCards(gameState.getCurrentPlayer());
+		outputPlayersCards(gameState.getCurrentPlayer());
 
 		System.out.println("\nThe last card to be played was " + gameState.getLastPlayedCard());
 
@@ -148,14 +148,14 @@ public class IO {
 
 	}
 
-	void displayPlayersCards(Player player) {
+	void outputPlayersCards(Player player) {
 		List<Card> cards = player.getPlayerCards();
 		for (int i = 0; i < cards.size(); i++) {
 			System.out.println(i + " - " + cards.get(i));
 		}
 	}
 
-	int pickupOrPlayChoice() {
+	int inputPickupOrPlayChoice() {
 		System.out.println("\nSelect an option : ");
 		System.out.println("1 - Play a card");
 		System.out.println("2 - Pick up a card");
@@ -163,25 +163,25 @@ public class IO {
 		return getValidUserInput(1, 2);
 	}
 
-	int getPlayersChosenCard(GameState gameState) {
+	int inputPlayersChosenCard(Player player) {
 		System.out.println("Enter the number of your chosen card : ");
 
-		return getValidUserInput(0, gameState.getCurrentPlayersCards().size() - 1);
+		return getValidUserInput(0, player.getPlayerCards().size() - 1);
 	}
 
-	void pickUpACard(Player player) {
+	void outputPickUpACard(Player player) {
 		System.out.println(player.getPlayerName() + " has picked up a card.");
 	}
 
-	void playCard(Card selectedCard, GameState gameState) {
-		System.out.println(gameState.getCurrentPlayersName() + " has played " + selectedCard.toString());
+	void outputPlayCard(Card selectedCard, Player player) {
+		System.out.println(player.getPlayerName() + " has played " + selectedCard.toString());
 	}
 
-	public void invalidCard() {
+	public void outputInvalidCard() {
 		System.out.println("This card can not be played.");
 	}
 
-	public int selectASuit() {
+	public int inputSelectASuit() {
 		System.out.println("Select your chosen suit : ");
 		System.out.println("1 Hearts");
 		System.out.println("2 Diamonds");
@@ -191,41 +191,41 @@ public class IO {
 		return getValidUserInput(1, 4);
 	}
 
-	public void noValidCards() {
+	public void outputNoValidCards() {
 		System.out.println("You have no valid playing cards !");
 	}
 
-	public int fiveOfHeartsDefence(String nextPlayerName) {
-		System.out.println(nextPlayerName + " is holding the 5 of Hearts so they can block the Ace ! !");
-		System.out.println(nextPlayerName + " : Do you want to play the 5 of Hearts or pick up 5?");
+	public int outputFiveOfHeartsDefence(Player nextPlayer) {
+		System.out.println(nextPlayer.getPlayerName() + " is holding the 5 of Hearts so they can block the Ace ! !");
+		System.out.println(nextPlayer.getPlayerName() + " : Do you want to play the 5 of Hearts or pick up 5?");
 		System.out.println("1 - Play the 5 of Hearts.");
 		System.out.println("2 - Pick up 5.");
 
 		return getValidUserInput(1, 2);
 	}
 
-	public void fiveOfHeartsIsPlayed(String nextPlayerName) {
-		System.out.println(nextPlayerName + " has played the FIVE of HEART in defence.");
+	public void outputFiveOfHeartsIsPlayed(Player nextPlayer) {
+		System.out.println(nextPlayer.getPlayerName() + " has played the FIVE of HEART in defence.");
 	}
 
-	public void jackChangedSuit(GameState gameState) {
+	public void outputJackChangedSuit(GameState gameState) {
 		System.out.println("You have changed the suit to " + gameState.getChosenJackSuit());
 	}
 
-	public void missATurn(String name) {
-		System.out.println(name + " misses a turn.");
+	public void outputMissATurn(Player player) {
+		System.out.println(player.getPlayerName() + " misses a turn.");
 	}
 
-	public void pickUpTwo(String name) {
-		System.out.println(name + " has picked up 2 cards");
+	public void outputPickUpTwo(Player nextPlayer) {
+		System.out.println(nextPlayer.getPlayerName() + " has picked up 2 cards");
 	}
 
-	public void reverse() {
+	public void outputReverse() {
 		System.out.println("The player order has been reversed !");
 	}
 
-	public void pickUpFive(String nextPlayerName) {
-		System.out.println(nextPlayerName + " has picked up 5 cards.");
+	public void outputPickUpFive(Player nextPlayer) {
+		System.out.println(nextPlayer.getPlayerName() + " has picked up 5 cards.");
 	}
 
 	private void outputPlayersPoints(GameState gameState) {
@@ -238,7 +238,7 @@ public class IO {
 
 	}
 
-	void gameOver(GameState gameState) {
+	void outputGameOver(GameState gameState) {
 
 		System.out.println("Game over ! !");
 
