@@ -30,7 +30,7 @@ Once a player runs out of cards. The other players cards are tallied to get tota
 The lower the ranking the better. The player who used all of their cards gets 0 points.
 All trick cards get a total of 20 points. All other cards get their face value.
 
-# Class Diagram of the Jack Change It Game showing the composition relationships
+## Class Diagram of the Jack Change It Game showing the composition relationships
 ![JCIClassDiagram (1)](https://user-images.githubusercontent.com/67584385/216286249-2d699e1c-61ec-42ff-bb35-2e427701a250.png)
 
 ## Classes and their Attributes
@@ -67,7 +67,7 @@ playerCards : List of the cards currently in the players hand
 face : The face of the card; Ace, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, J, Q, K.
 suit : The face of the card; heart, diamond, club or spade.
 
-# Class Diagram of the Jack Change It Game including all attributes and methods
+## Class Diagram of the Jack Change It Game including all attributes and methods
 ![Jack Change It](https://user-images.githubusercontent.com/67584385/213870381-3e2f6a3c-c851-46af-bd27-6c039962bac0.png)
 
 ## Overview of each objects responsibility during gameplay
