@@ -1,5 +1,5 @@
 # Jack-Change-It
-Play the popular card game in the console for 3 - 6 players
+Play the popular card game in the console for 3 - 6 players.  
 This has been developed for learning purposes.
 
 ## Contents
