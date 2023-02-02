@@ -3,6 +3,14 @@ Play the popular card game in the console for 3 - 6 players
 This has been developed for learning purposes.
 
 ## Contents
+1. Game rules.  
+2. Trick Cards.  
+3. Ending the game.  
+4. Basic class diagram.  
+5. Classes and their attributes.  
+6. Class diagram including attributes and methods.  
+7. Overview of each objects responsibilities during gameplay.  
+8. Example sequence diagrams for common gameplay. 
 
 ## GAME RULES
 Players are each dealt 7 starting cards. They take turns, starting clockwise, playing 1 card each. The winner is the first to get rid of all cards.
@@ -12,12 +20,12 @@ If a player does not have a valid card to play, then they must pick up a card fr
 Players can also choose to pick up a card instead of playing a valid card.
 
 ## Trick cards
-**2** -- The next player must pick up 2 cards instead of playing a card |
-**8** -- The next player misses a turn |
-**Q** -- Changes the direction of play |
-**J** -- Any Jack can be played at any time. The player chooses to change the playable suit to one of their choice. The next player must then play a card of this suit |
-**A of H** -- The next player must pick up 5 cards instead of playing a card, unless they hold the Five of Hearts |
-**5 of H** -- Defends against the Ace of Hearts |
+**2** -- The next player must pick up 2 cards instead of playing a card  
+**8** -- The next player misses a turn  
+**Q** -- Changes the direction of play  
+**J** -- Any Jack can be played at any time. The player chooses to change the playable suit to one of their choice. The next player must then play a card of this suit  
+**A of H** -- The next player must pick up 5 cards instead of playing a card, unless they hold the Five of Hearts  
+**5 of H** -- Defends against the Ace of Hearts  
 
 ## Ending the game
 Once a player runs out of cards. The other players cards are tallied to get total player points and provide a ranking. 
@@ -28,7 +36,7 @@ All trick cards get a total of 20 points. All other cards get their face value.
 ![JCIClassDiagram (1)](https://user-images.githubusercontent.com/67584385/216286249-2d699e1c-61ec-42ff-bb35-2e427701a250.png)
 
 ## Classes and their Attributes
-**JackChangeIt**
+**JackChangeIt**  
 NUMBER_OF_STARTING_CARDS : A constant for the number of cards each player is dealt at the start of the game.
 ACE_OF_H_PICK_UP_AMOUNT : A constant for the number of cards the next player is dealt if a player plays the Ace of Hearts.
 MAX_NUM_OF_PLAYERS : A constant for the maximum number of players that can play the game.
@@ -36,24 +44,24 @@ MIN_NUM_OF_PLAYERS : A constant for the minimum number of players that can play 
 IO : Responsible for all input and output.
 gamestate : Manages the state of the game.
 
-**IO**
+**IO**  
 Scanner : Gets input from the players.
 
-**Gamestate**
+**Gamestate**  
 deck : Manages the 52 cards involved in the gameplay.
 players : Manages the players.
 gameover : Boolean flag for if a player runs out of cards or quits the game.
 chosenJackSuit : Stores the enum of the chosen suit when a player plays a Jack.
 
-**DeckOfCards**
+**DeckOfCards**  
 burndeck : List of the cards which have already been played.
 deckQueue : Queue of the cards due to be dealt next.
 
-**PlayerList**
+**PlayerList**  
 players : List of the players in their order of play.
 currentPlayerIndex : The List index of the current player whos turn it is to play a card.
 
-**Player**
+**Player**  
 playerName : String for the players chosen name.
 playerCards : List of the cards currently in the players hand
 
