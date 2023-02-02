@@ -4,13 +4,11 @@ This has been developed for learning purposes.
 
 ## Contents
 1. Game rules.  
-2. Trick Cards.  
-3. Ending the game.  
-4. Basic class diagram.  
-5. Classes and their attributes.  
-6. Class diagram including attributes and methods.  
-7. Overview of each objects responsibilities during gameplay.  
-8. Example sequence diagrams for common gameplay. 
+2. Basic class diagram.  
+3. Classes and their attributes.  
+4. Class diagram including attributes and methods.  
+5. Overview of each objects responsibilities during gameplay.  
+6. Example sequence diagrams for common gameplay. 
 
 ## GAME RULES
 Players are each dealt 7 starting cards. They take turns, starting clockwise, playing 1 card each. The winner is the first to get rid of all cards.
@@ -19,7 +17,7 @@ Subsequent players must play a card that matches the suit or face of the new top
 If a player does not have a valid card to play, then they must pick up a card from the deck. 
 Players can also choose to pick up a card instead of playing a valid card.
 
-## Trick cards
+###### Trick cards
 **2** -- The next player must pick up 2 cards instead of playing a card  
 **8** -- The next player misses a turn  
 **Q** -- Changes the direction of play  
@@ -27,7 +25,7 @@ Players can also choose to pick up a card instead of playing a valid card.
 **A of H** -- The next player must pick up 5 cards instead of playing a card, unless they hold the Five of Hearts  
 **5 of H** -- Defends against the Ace of Hearts  
 
-## Ending the game
+###### Ending the game
 Once a player runs out of cards. The other players cards are tallied to get total player points and provide a ranking. 
 The lower the ranking the better. The player who used all of their cards gets 0 points.
 All trick cards get a total of 20 points. All other cards get their face value.
